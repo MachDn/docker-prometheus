@@ -56,7 +56,7 @@ services:
     environment:
      #- GF_AUTH_ANONYMOUS_ENABLED=true
       - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin
-      - GF_SECURITY_ADMIN_PASSWORD=pass
+      - GF_SECURITY_ADMIN_PASSWORD=pass123#
     networks:
       - dockermon
     depends_on:
