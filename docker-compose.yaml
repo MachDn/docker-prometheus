@@ -19,12 +19,30 @@ services:
       - 9090:9090
     networks:
       - dockermon
-  
+    depends_on:
+      - cadvisor
+      - node-exporter
+
   node-exporter:
     container_name: node-exporter
     image: prom/node-exporter
     ports:
       - "9100:9100"
+    networks:
+      - dockermon
+
+  cadvisor:
+    image: google/cadvisor:latest
+    container_name: cadvisor
+    ports:
+      - 9559:8080
+    restart: always
+    volumes:
+      - /:/rootfs:ro
+      - /var/run:/var/run:rw
+      - /sys:/sys:ro
+      - /var/lib/docker/:/var/lib/docker:ro
+      - /dev/disk/:/dev/disk:ro
     networks:
       - dockermon
 
@@ -36,7 +54,10 @@ services:
     volumes:
       - ./grafana/datasource.yml:/etc/grafana/provisioning/datasources/datasource.yml
     environment:
-      - GF_AUTH_ANONYMOUS_ENABLED=true
+     #- GF_AUTH_ANONYMOUS_ENABLED=true
       - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin
+      - GF_SECURITY_ADMIN_PASSWORD=pass
     networks:
       - dockermon
+    depends_on:
+      - prometheus
