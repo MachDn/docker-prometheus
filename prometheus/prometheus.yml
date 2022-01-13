@@ -35,7 +35,7 @@ scrape_configs:
   - job_name: 'cadvisor'
     scrape_interval: 5s
     static_configs:
-            - targets: ['cadvisor:9559']
+            - targets: ['localhost:9559']
             
 # global.scrape_interval: 기본적인 수집 간격.
 # global.external_labels.monitor: 모니터에 대한 별칭 설정.
